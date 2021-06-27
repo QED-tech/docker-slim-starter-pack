@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+
+  gateway:
+    build:
+      context: gateway/docker
+      dockerfile: dev/nginx/Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: api/docker
+      dockerfile: dev/nginx/Dockerfile
+    volumes:
+      - ./api:/app
+    depends_on:
+      - api-php-fpm
+
+  api-php-fpm:
+    build:
+      context: api/docker
+      dockerfile: dev/php-fpm/Dockerfile
+    volumes:
+      - ./api:/app
