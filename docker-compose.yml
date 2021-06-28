@@ -26,3 +26,10 @@ services:
       dockerfile: dev/php-fpm/Dockerfile
     volumes:
       - ./api:/app
+
+  php-cli:
+    build:
+      context: api/docker
+      dockerfile: dev/php-cli/Dockerfile
+    volumes:
+      - ./api:/app
