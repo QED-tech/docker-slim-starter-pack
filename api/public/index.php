@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Action\HomeAction;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 
@@ -24,6 +23,6 @@ $app = AppFactory::createFromContainer($container);
 
 $app->addErrorMiddleware($container->get('config')['debug'], false, false);
 
-$app->get('/', HomeAction::class);
+(require __DIR__ . '/../config/routes.php')($app);
 
 $app->run();
