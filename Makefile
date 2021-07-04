@@ -1,4 +1,4 @@
-init: docker-down-clear docker-pull docker-build docker-up
+init: docker-down-clear docker-pull docker-build docker-up api-init
 down: docker-down
 up: docker-up
 
@@ -15,4 +15,9 @@ docker-build:
 	docker-compose build
 
 docker-down:
-	docker-compose down --remove-orphans
+	docker-compose down --remove-
+
+api-init: api-composer-install
+
+api-composer-install:
+	docker-compose run --rm api-php-cli composer install
