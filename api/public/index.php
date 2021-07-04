@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
-use DI\Container;
+use App\Http\Action\HomeAction;
+use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+
 
 require __DIR__ . '/../vendor/autoload.php';
 
 http_response_code(500);
 
-$container = new Container();
+$builder = new ContainerBuilder();
+$builder->addDefinitions([
+	'config' => [
+		'debug' => (bool)getenv('APP_DEBUG')
+	]
+]);
+
+$container = $builder->build();
 
 $app = AppFactory::createFromContainer($container);
 
-$app->addErrorMiddleware((bool)getenv('APP_DEBUG'), false, false);
+$app->addErrorMiddleware($container->get('config')['debug'], false, false);
 
-$app->get('/', function (Request $request, Response $response, array $args) {
-	$response->getBody()->write(json_encode([
-		'name' => 'qed'
-	]));
-	return $response->withHeader('Content-Type', 'application/json');
-});
+$app->get('/', HomeAction::class);
 
 $app->run();
