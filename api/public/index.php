@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use DI\Container;
-use Slim\Factory\AppFactory;
-
 
 require __DIR__ . '/../vendor/autoload.php';
 
